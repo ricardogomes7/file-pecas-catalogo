@@ -1,0 +1,52 @@
+FILÉ PEÇAS — CATÁLOGO INTERNO
+
+O que está pronto:
+• Login com e-mail e senha (Firebase Authentication)
+• Acesso apenas para funcionários com registro ativo em Firestore /users
+• Busca por nome, veículo, ano/aplicação e código
+• Foto por URL, valor e quantidade em estoque
+• Localização por andar, setor, lado e altura
+• Cadastro, edição e exclusão de produtos
+• Interface para celular, nas cores Filé Peças, com logo original
+
+IMPORTANTE: O ZIP contém o site completo, MAS não há banco ou contas configurados.
+Antes de usar, é necessário um projeto Firebase próprio da Filé Peças.
+NÃO use o mesmo projeto da Nova Guarulhos.
+
+ETAPA 1 — Firebase
+1. Acesse https://console.firebase.google.com/ e crie um NOVO projeto para a Filé Peças.
+2. Em Authentication > Sign-in method, ative Email/Password.
+3. Em Authentication > Users, adicione o primeiro funcionário administrador (e-mail e senha).
+4. Em Firestore Database, crie o banco em modo de produção.
+5. Em Firestore Database > Rules, substitua pelas regras do arquivo firestore.rules e publique.
+6. No Firestore > Data, crie a coleção users. Crie documento cujo ID seja o UID EXATO
+   do funcionário mostrado em Authentication > Users; campos:
+   active (boolean): true
+   role (string): "admin"
+   name (string): "Administrador"
+7. Para cada novo funcionário: crie usuário em Authentication > Users e documento
+   users/{UID} em Firestore, com active=true, role="funcionario", name="Nome".
+   Para bloquear alguém, altere active=false (ou desative no Authentication).
+8. Em Project settings > Your apps, registre um aplicativo Web e copie os valores
+   de firebaseConfig para o arquivo firebase-config.js, substituindo todos os COLE_AQUI.
+   NÃO copie dados da Nova Guarulhos.
+
+ETAPA 2 — Publicação gratuita no GitHub
+1. No GitHub, crie repositório público específico para a Filé Peças.
+2. Envie para a RAIZ do repositório os arquivos index.html, firebase-config.js,
+   logo-file-pecas.jpg, favicon.png, apple-touch-icon.png.
+3. Em Settings > Pages selecione Deploy from a branch > main > /(root), Save.
+4. Confira o endereço informado pelo GitHub Pages.
+5. Se ocorrer bloqueio de login, em Firebase Authentication > Settings > Authorized domains,
+   adicione o domínio do site publicado no GitHub Pages (por exemplo, seuusuario.github.io).
+6. Teste login, cadastro e pesquisa com uma conta autorizada antes de compartilhar o link.
+
+SEGURANÇA
+• O repositório GitHub Pages é público: arquivos HTML e configuração cliente do Firebase
+  são acessíveis, mas os dados do Firestore são protegidos pelas regras.
+• Compartilhe o link apenas com funcionários; o login exige contas autorizadas.
+• Gerencie usuários diretamente pelo console Firebase. O site não cria usuários.
+• Apenas usuários em users/{UID} com active=true podem ler/alterar produtos.
+• Foto via URL externa pode não carregar se o fornecedor bloquear hotlinks.
+• As quantidades são inteiros não negativos. Alterar quantidade é feito pelo botão Editar.
+• Faça backup periódico de seus dados. Não existe lixeira para produtos excluídos.
